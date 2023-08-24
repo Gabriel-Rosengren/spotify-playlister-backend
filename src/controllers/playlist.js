@@ -1,11 +1,13 @@
 import axios from 'axios'
-import { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI } from '../utils/env.js'
+
+// Here we send a GET request to spotify, requesting a number of the users playlists.
+// If the request is successful, we return the playlists to the client.
 
 export const getAllPlaylists = (req, res) => {
   const { access_token, user_id, limit, offset } = req.body
 
   if(!access_token || !user_id || !limit || !offset) {
-    res.status(400).send({ error: 'Bad Request'})
+    res.status(400).send({ error: 'Missing fields in request body.'})
   }
 
   const queryParams = new URLSearchParams({
