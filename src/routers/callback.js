@@ -1,8 +1,8 @@
 import { Router } from 'express'
-import { login } from '../controllers/auth.js'
+import { callback } from '../controllers/callback.js'
 
 const router = Router()
 
-router.get('/', login)
+router.get('/', callback)
 
 export default router
