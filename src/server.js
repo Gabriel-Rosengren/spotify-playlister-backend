@@ -16,10 +16,7 @@ app.use('/callback', callbackRouter)
 
 app.get('*', (req, res) => {
   res.status(404).json({
-    status: 'fail',
-    data: {
-      resource: 'Not found'
-    }
+    error: 'Resource not found'
   })
 })
 

@@ -20,11 +20,10 @@ export const callback = (req, res) => {
     }
   })
   .then(response => {
-    if(response.status !== 200) {
-      res.status(500).send({ error: response.error })
-    }
-
     res.send(response.data)
+  })
+  .catch(error => {
+    res.status(error.status).send({ error })
   })
 }
 

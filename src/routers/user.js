@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { getUserProfile } from '../controllers/playlist.js'
+import { getUserProfile } from '../controllers/user.js'
 
 const router = Router()
 
