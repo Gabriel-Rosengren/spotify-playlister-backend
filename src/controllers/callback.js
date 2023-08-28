@@ -27,7 +27,6 @@ export const callback = (req, res) => {
   .then(response => {
     res.cookie('access_token', response.data.access_token, { httpOnly: true, secure: false })
     res.cookie('refresh_token', response.data.refresh_token, { httpOnly: true, secure: false })
-    console.log('cookies in then', response.data)
     return res.redirect('http://localhost:3000/home')
   })
   .catch(error => {
