@@ -10,7 +10,8 @@ export const callback = (req, res) => {
   const error = req.query.error
 
   if(error && !code) {
-    return res.status(500).send({ error: error })
+    const queryString = new URLSearchParams({ status: 500, error}).toString()
+    return res.redirect('http://localhost:3000/error?' + queryString)
   }
   
   axios.post('https://accounts.spotify.com/api/token', {
@@ -24,9 +25,10 @@ export const callback = (req, res) => {
     }
   })
   .then(response => {
-    res.cookie('access_token', response.data.access_token, { httpOnly: true })
-    res.cookie('refresh_token', response.data.refresh_token, { httpOnly: true })
-    return res.redirect('http://localhost:3000/callback')
+    res.cookie('access_token', response.data.access_token, { httpOnly: true, secure: false })
+    res.cookie('refresh_token', response.data.refresh_token, { httpOnly: true, secure: false })
+    console.log('cookies in then', response.data)
+    return res.redirect('http://localhost:3000/home')
   })
   .catch(error => {
     const queryString = new URLSearchParams({ status: 500, error: error.response.data.error}).toString()

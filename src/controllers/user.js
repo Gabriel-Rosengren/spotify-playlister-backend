@@ -4,7 +4,7 @@ import axios from 'axios'
 // If the request is successful, we return the users details to the client.
 
 export const getUserProfile = (req, res) => {
-  console.log('cookies', req.cookies)
+  console.log(req)
   const access_token = req.cookies.access_token
   if(!access_token) {
     return res.status(400).send({ error: 'Missing fields in request body.'})
