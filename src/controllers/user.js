@@ -4,21 +4,22 @@ import axios from 'axios'
 // If the request is successful, we return the users details to the client.
 
 export const getUserProfile = (req, res) => {
-  const access_token = req.body.access_token
+  console.log('cookies', req.cookies)
+  const access_token = req.cookies.access_token
   if(!access_token) {
-    res.status(400).send({ error: 'Missing fields in request body.'})
+    return res.status(400).send({ error: 'Missing fields in request body.'})
   }
 
   axios.get('https://api.spotify.com/v1/me', {
     'headers': {
-      'Authorization': 'Bearer' + access_token
+      'Authorization': 'Bearer ' + access_token
     }
   })
   .then(response => {
-    res.send(response.data)
+    return res.send(response.data)
   })
   .catch(error => {
-    res.status(error.status).send({ error })
+    return res.status(500).send({ error: error.response.data.error })
   })
 }
  

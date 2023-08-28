@@ -24,10 +24,13 @@ export const callback = (req, res) => {
     }
   })
   .then(response => {
-    res.send(response.data)
+    res.cookie('access_token', response.data.access_token, { httpOnly: true })
+    res.cookie('refresh_token', response.data.refresh_token, { httpOnly: true })
+    return res.redirect('http://localhost:3000/callback')
   })
   .catch(error => {
-    res.status(error.status).send({ error })
+    const queryString = new URLSearchParams({ status: 500, error: error.response.data.error}).toString()
+    return res.redirect('http://localhost:3000/error?' + queryString)
   })
 }
  

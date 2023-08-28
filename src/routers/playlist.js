@@ -3,6 +3,6 @@ import { getAllPlaylists } from '../controllers/playlist.js'
 
 const router = Router()
 
-router.get('/', getAllPlaylists)
+router.post('/', getAllPlaylists)
 
 export default router

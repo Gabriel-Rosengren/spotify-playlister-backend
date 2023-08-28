@@ -4,10 +4,11 @@ import axios from 'axios'
 // If the request is successful, we return the playlists to the client.
 
 export const getAllPlaylists = (req, res) => {
-  const { access_token, user_id, limit, offset } = req.body
+  const access_token = req.cookies.access_token
+  const { user_id, limit, offset } = req.body
 
-  if(!access_token || !user_id || !limit || !offset) {
-    res.status(400).send({ error: 'Missing fields in request body.'})
+  if(access_token === undefined || user_id === undefined || limit === undefined || offset === undefined) {
+    return res.status(400).send({ error: 'Missing fields in request body.'})
   }
 
   const queryParams = new URLSearchParams({
@@ -15,12 +16,16 @@ export const getAllPlaylists = (req, res) => {
     offset
   }).toString()
 
-  axios.get('https://api.spotify.com/v1/users/' + user_id + '/playlists?' + queryParams)
+  axios.get('https://api.spotify.com/v1/users/' + user_id + '/playlists?' + queryParams, {
+    'headers': {
+      'Authorization': 'Bearer ' + access_token
+    }
+  })
   .then(response => {
-    res.send(response.data)
+    return res.send(response.data)
   })
   .catch(error => {
-    res.status(error.status).send({ error })
+    return res.status(500).send({ error: error.response.data.error })
   })
 }
  
